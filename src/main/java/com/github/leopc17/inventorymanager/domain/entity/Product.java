@@ -1,8 +1,6 @@
 package com.github.leopc17.inventorymanager.domain.entity;
 
 import com.github.leopc17.inventorymanager.domain.enums.ProductCategory;
-import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 
 public class Product{
