@@ -5,22 +5,13 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
-@Entity
 public class Product{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String name;
-
     private BigDecimal price;
-
     private String longDescription;
-
     private String shortDescription;
-
-    @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
     public Integer getId() {
