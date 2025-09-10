@@ -17,9 +17,6 @@ public class Product {
     public Product() {}
 
     public Product(Integer id, String name, BigDecimal price, Integer quantity, String longDescription, String shortDescription, ProductCategory category) {
-        if (id == null || id <= 0) {
-            throw new ProductIdInvalidException("O ID do produto não pode ser nulo ou zero.");
-        }
         if (name == null || name.isBlank() || name.length() < 3) {
             throw new ProductNameInvalidException("O nome não pode ser vazio, nulo, ou ter menos de 3 caracteres.");
         }
@@ -52,9 +49,6 @@ public class Product {
     }
 
     public void setId(Integer id) {
-        if (id == null || id <= 0) {
-            throw new ProductIdInvalidException("O ID do produto não pode ser nulo ou zero.");
-        }
         this.id = id;
     }
 
