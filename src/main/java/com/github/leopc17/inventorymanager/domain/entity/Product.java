@@ -14,6 +14,8 @@ public class Product {
     private String shortDescription;
     private ProductCategory category;
 
+    public Product() {}
+
     public Product(Integer id, String name, BigDecimal price, Integer quantity, String longDescription, String shortDescription, ProductCategory category) {
         if (id == null || id <= 0) {
             throw new ProductIdInvalidException("O ID do produto não pode ser nulo ou zero.");
@@ -24,8 +26,8 @@ public class Product {
         if (price.compareTo(BigDecimal.ZERO) <= 0) {
             throw new ProductPriceInvalidException("O preço não pode ser zero ou negativo.");
         }
-        if (quantity <= 0) {
-            throw new ProductQuantityInvalidException("A quantidade não pode ser zero ou negativa.");
+        if (quantity < 0) {
+            throw new ProductQuantityInvalidException("A quantidade não pode ser negativa.");
         }
         if (longDescription.length() < 30) {
             throw new ProductDescriptionInvalidException("A descrição completa não pode ter menos de 30 caracteres.");
@@ -50,6 +52,9 @@ public class Product {
     }
 
     public void setId(Integer id) {
+        if (id == null || id <= 0) {
+            throw new ProductIdInvalidException("O ID do produto não pode ser nulo ou zero.");
+        }
         this.id = id;
     }
 
@@ -58,11 +63,8 @@ public class Product {
     }
 
     public void setName(String name) {
-        if (name == null || name.isBlank()) {
-            throw new ProductNameInvalidException("O nome do produto não pode ser vazio.");
-        }
-        if (name.length() < 3) {
-            throw new ProductNameInvalidException("O nome não pode ter menos de 3 caracteres.");
+        if (name == null || name.isBlank() || name.length() < 3) {
+            throw new ProductNameInvalidException("O nome do produto não pode ser nulo, vazio ou ter menos de 3 caracteres.");
         }
         this.name = name;
     }
@@ -83,8 +85,8 @@ public class Product {
     }
 
     public void setQuantity(Integer quantity) {
-        if (quantity <= 0) {
-            throw new ProductQuantityInvalidException("A quantidade não pode ser menor ou igual a zero.");
+        if (quantity < 0) {
+            throw new ProductQuantityInvalidException("A quantidade não pode ser menor que zero.");
         }
         this.quantity = quantity;
     }
