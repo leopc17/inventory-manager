@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepositoryPort {
-    Optional<Product> create(Product product);
-    Optional<List<Product>> getAllProducts();
-    Optional<Product> getProductById(Integer id);
-    Optional<Product> updateProduct(Product product, Integer id);
-    void deleteProductById(Integer id);
+    Optional<Product> save(Product product);
+    Optional<List<Product>> getALl();
+    Optional<Product> getById(Integer id);
+    Optional<Product> updateById(Product newProduct, Integer id);
+    void deleteById(Integer id);
 }

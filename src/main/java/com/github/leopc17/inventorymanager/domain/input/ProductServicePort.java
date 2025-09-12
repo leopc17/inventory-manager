@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface ProductServicePort {
     Product create(Product product);
-    List<Product> getAllProducts();
-    Product getProductById(Integer id);
-    Product updateProduct(Product product, Integer id);
-    void deleteProductById(Integer id);
+    List<Product> getAll();
+    Product getById(Integer id);
+    Product update(Product newProduct, Integer id);
+    void deleteById(Integer id);
 }
