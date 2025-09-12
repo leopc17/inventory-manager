@@ -20,11 +20,6 @@ public class Product {
         if (id == null || id <= 0) {
             throw new ProductIdInvalidException("O ID do produto não pode ser nulo ou zero.");
         }
-
-        if (price == null) {
-            throw new ProductPriceInvalidException("O preço não pode ser nulo");
-        }
-
         if (name == null || name.isBlank() || name.length() < 3) {
             throw new ProductNameInvalidException("O nome não pode ser vazio, nulo, ou ter menos de 3 caracteres.");
         }
@@ -79,10 +74,6 @@ public class Product {
     }
 
     public void setPrice(BigDecimal price) {
-        if (price == null) {
-            throw new ProductPriceInvalidException("O preço não pode ser nulo");
-        }
-
         if (price.compareTo(BigDecimal.ZERO) <= 0) {
             throw new ProductPriceInvalidException("O preço deve ser maior do que zero.");
         }
