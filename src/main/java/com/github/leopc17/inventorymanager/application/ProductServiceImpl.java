@@ -37,11 +37,15 @@ public class ProductServiceImpl implements ProductServicePort {
 
     @Override
     public Product updateProduct(Product product, Integer id) {
-        return null;
+        return productReporitoryAdapter.updateProduct(product, id)
+                .orElseThrow(() -> new RuntimeException("ID:" + id + " não encontrado"));
     }
 
     @Override
     public void deleteProductById(Integer id) {
-
+        if (productReporitoryAdapter.getProductById(id).isEmpty()) {
+            throw new RuntimeException("ID:" + id + " não encontrado");
+        }
+        productReporitoryAdapter.deleteProductById(id);
     }
 }
