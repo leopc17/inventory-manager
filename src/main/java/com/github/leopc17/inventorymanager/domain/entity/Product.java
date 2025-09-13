@@ -20,14 +20,26 @@ public class Product {
         if (name == null || name.isBlank() || name.length() < 3) {
             throw new ProductNameInvalidException("O nome não pode ser vazio, nulo, ou ter menos de 3 caracteres.");
         }
+        if (price == null) {
+            throw new ProductPriceInvalidException("O preço não pode ser nulo.");
+        }
         if (price.compareTo(BigDecimal.ZERO) <= 0) {
             throw new ProductPriceInvalidException("O preço não pode ser zero ou negativo.");
+        }
+        if (quantity == null) {
+            throw new ProductQuantityInvalidException("A quantidade não pode nula.");
         }
         if (quantity < 0) {
             throw new ProductQuantityInvalidException("A quantidade não pode ser negativa.");
         }
+        if (longDescription == null) {
+            throw new ProductDescriptionInvalidException("A descrição completa não pode ser nula.");
+        }
         if (longDescription.length() < 30) {
             throw new ProductDescriptionInvalidException("A descrição completa não pode ter menos de 30 caracteres.");
+        }
+        if (shortDescription == null) {
+            throw new ProductDescriptionInvalidException("A descrição completa não pode ser nula.");
         }
         if (shortDescription.length() < 10) {
             throw new ProductDescriptionInvalidException("A descrição breve não pode ter menos de 10 caracteres.");
@@ -68,6 +80,9 @@ public class Product {
     }
 
     public void setPrice(BigDecimal price) {
+        if (price == null) {
+            throw new ProductPriceInvalidException("O preço não pode ser nulo.");
+        }
         if (price.compareTo(BigDecimal.ZERO) <= 0) {
             throw new ProductPriceInvalidException("O preço deve ser maior do que zero.");
         }
@@ -79,6 +94,9 @@ public class Product {
     }
 
     public void setQuantity(Integer quantity) {
+        if (quantity == null) {
+            throw new ProductQuantityInvalidException("A quantidade não pode nula.");
+        }
         if (quantity < 0) {
             throw new ProductQuantityInvalidException("A quantidade não pode ser menor que zero.");
         }
@@ -90,6 +108,9 @@ public class Product {
     }
 
     public void setLongDescription(String longDescription) {
+        if (longDescription == null) {
+            throw new ProductDescriptionInvalidException("A descrição completa não pode ser nula.");
+        }
         if (longDescription.length() < 30) {
             throw new ProductDescriptionInvalidException("A descrição completa não pode ter menos de 30 caracteres.");
         }
@@ -101,6 +122,9 @@ public class Product {
     }
 
     public void setShortDescription(String shortDescription) {
+        if (shortDescription == null) {
+            throw new ProductDescriptionInvalidException("A descrição completa não pode ser nula.");
+        }
         if (shortDescription.length() < 10) {
             throw new ProductDescriptionInvalidException("A descrição breve não pode ter menos de 10 caracteres.");
         }
