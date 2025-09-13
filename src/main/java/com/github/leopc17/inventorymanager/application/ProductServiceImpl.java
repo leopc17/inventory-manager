@@ -1,5 +1,6 @@
 package com.github.leopc17.inventorymanager.application;
 
+import com.github.leopc17.inventorymanager.application.exception.ProductNotFoundException;
 import com.github.leopc17.inventorymanager.domain.model.Product;
 import com.github.leopc17.inventorymanager.domain.input.ProductServicePort;
 import com.github.leopc17.inventorymanager.infrastructure.adapter.output.ProductReporitoryAdapter;
@@ -26,25 +27,35 @@ public class ProductServiceImpl implements ProductServicePort {
     @Override
     public List<Product> getAll() {
         var optional = productReporitoryAdapter.getALl();
-        List<Product> list = optional.get();
-        return list;
+
+        if (optional.isEmpty()) {
+            throw new ProductNotFoundException("Nenhum produto encontrado.");
+        }
+
+        return optional.get();
     }
 
     @Override
     public Product getById(Integer id) {
-        return productReporitoryAdapter.getById(id).get();
+        var optional = productReporitoryAdapter.getById(id);
+
+        if (optional.isEmpty()) {
+            throw new ProductNotFoundException("Nenhum produto encontrado.");
+        }
+
+        return optional.get();
     }
 
     @Override
     public Product update(Product product, Integer id) {
         return productReporitoryAdapter.updateById(product, id)
-                .orElseThrow(() -> new RuntimeException("ID:" + id + " não encontrado"));
+                .orElseThrow(() -> new ProductNotFoundException("ID:" + id + " não encontrado"));
     }
 
     @Override
     public void deleteById(Integer id) {
         if (productReporitoryAdapter.getById(id).isEmpty()) {
-            throw new RuntimeException("ID:" + id + " não encontrado");
+            throw new ProductNotFoundException("ID:" + id + " não encontrado");
         }
         productReporitoryAdapter.deleteById(id);
     }
