@@ -1,4 +1,4 @@
-package com.github.leopc17.inventorymanager.domain.entity;
+package com.github.leopc17.inventorymanager.domain.model;
 
 import com.github.leopc17.inventorymanager.domain.enums.ProductCategory;
 import com.github.leopc17.inventorymanager.domain.exceptions.*;

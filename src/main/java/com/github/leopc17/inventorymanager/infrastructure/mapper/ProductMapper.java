@@ -1,6 +1,6 @@
-package com.github.leopc17.inventorymanager.infrastructure.entity.mapper;
+package com.github.leopc17.inventorymanager.infrastructure.mapper;
 
-import com.github.leopc17.inventorymanager.domain.entity.Product;
+import com.github.leopc17.inventorymanager.domain.model.Product;
 import com.github.leopc17.inventorymanager.infrastructure.entity.ProductEntity;
 
 public class ProductMapper {

@@ -1,9 +1,9 @@
-package com.github.leopc17.inventorymanager.infrastructure.entity.adapter.output;
+package com.github.leopc17.inventorymanager.infrastructure.adapter.output;
 
-import com.github.leopc17.inventorymanager.domain.entity.Product;
+import com.github.leopc17.inventorymanager.domain.model.Product;
 import com.github.leopc17.inventorymanager.domain.output.ProductRepositoryPort;
 import com.github.leopc17.inventorymanager.infrastructure.entity.ProductEntity;
-import com.github.leopc17.inventorymanager.infrastructure.entity.mapper.ProductMapper;
+import com.github.leopc17.inventorymanager.infrastructure.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,14 +21,14 @@ public class ProductReporitoryAdapter implements ProductRepositoryPort {
     }
 
     @Override
-    public Optional<Product> create(Product product) {
+    public Optional<Product> save(Product product) {
         ProductEntity productEntity = ProductMapper.productEntity(product);
         ProductEntity savedEntity = productRepositoryJpa.save(productEntity);
         return Optional.of(ProductMapper.product(savedEntity));
     }
 
     @Override
-    public Optional<List<Product>> getAllProducts() {
+    public Optional<List<Product>> getALl() {
         List<ProductEntity> produtosEntity = productRepositoryJpa.findAll();
         List<Product> produto = produtosEntity.stream().map(x-> ProductMapper.product(x)).toList();
         Optional<List<Product>> optional = Optional.of(produto);
@@ -36,14 +36,14 @@ public class ProductReporitoryAdapter implements ProductRepositoryPort {
     }
 
     @Override
-    public Optional<Product> getProductById(Integer id) {
+    public Optional<Product> getById(Integer id) {
         Optional<ProductEntity> produtoEntity = productRepositoryJpa.findById(id);
         Optional<Product> product = Optional.of(ProductMapper.product(produtoEntity.get()));
         return product;
     }
 
     @Override
-    public Optional<Product> updateProduct(Product product, Integer id) {
+    public Optional<Product> updateById(Product product, Integer id) {
         product.setId(id);
         productRepositoryJpa.save(ProductMapper.productEntity(product));
         Optional<Product> optional = Optional.of(product);
@@ -51,7 +51,7 @@ public class ProductReporitoryAdapter implements ProductRepositoryPort {
     }
 
     @Override
-    public void deleteProductById(Integer id) {
+    public void deleteById(Integer id) {
         productRepositoryJpa.deleteById(id);
     }
 }

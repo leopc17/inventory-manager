@@ -1,7 +1,7 @@
-package com.github.leopc17.inventorymanager.infrastructure.entity.adapter.input;
+package com.github.leopc17.inventorymanager.infrastructure.adapter.input;
 
 import com.github.leopc17.inventorymanager.application.ProductServiceImpl;
-import com.github.leopc17.inventorymanager.domain.entity.Product;
+import com.github.leopc17.inventorymanager.domain.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,23 +28,23 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts(){
-        return ResponseEntity.status(HttpStatus.OK).body(productService.getAllProducts());
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable(value = "id") Integer id){
-        return ResponseEntity.status(HttpStatus.OK).body(productService.getProductById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getById(id));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
-        productService.deleteProductById(id);
+        productService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
-        Product updatedProduct = productService.updateProduct(product, id);
+        Product updatedProduct = productService.update(product, id);
         return ResponseEntity.ok(updatedProduct);
     }
 }

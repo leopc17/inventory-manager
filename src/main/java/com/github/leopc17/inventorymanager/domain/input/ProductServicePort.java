@@ -1,6 +1,6 @@
 package com.github.leopc17.inventorymanager.domain.input;
 
-import com.github.leopc17.inventorymanager.domain.entity.Product;
+import com.github.leopc17.inventorymanager.domain.model.Product;
 
 import java.util.List;
 

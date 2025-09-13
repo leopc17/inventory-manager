@@ -1,6 +1,6 @@
 package com.github.leopc17.inventorymanager.domain.output;
 
-import com.github.leopc17.inventorymanager.domain.entity.Product;
+import com.github.leopc17.inventorymanager.domain.model.Product;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.github.leopc17.inventorymanager.infrastructure.entity.adapter.output;
+package com.github.leopc17.inventorymanager.infrastructure.adapter.output;
 
 import com.github.leopc17.inventorymanager.infrastructure.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

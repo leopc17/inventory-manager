@@ -1,6 +1,6 @@
 package com.github.leopc17.inventorymanager.infrastructure.entity;
 
-import com.github.leopc17.inventorymanager.domain.entity.Product;
+import com.github.leopc17.inventorymanager.domain.model.Product;
 import com.github.leopc17.inventorymanager.domain.enums.ProductCategory;
 import jakarta.persistence.*;
 
