@@ -11,5 +11,5 @@ public interface ProductServicePort {
     Product update(Product newProduct, Integer id);
     void deleteById(Integer id);
     Product updateInventory(Integer id, Integer quantity);
-    
+    List<Product> getByCategory(String category);
 }

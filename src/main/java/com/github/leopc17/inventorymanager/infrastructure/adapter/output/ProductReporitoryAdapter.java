@@ -55,6 +55,7 @@ public class ProductReporitoryAdapter implements ProductRepositoryPort {
         productRepositoryJpa.deleteById(id);
     }
 
+    @Override
     public Optional<List<Product>> getByCategory(String category) {
         List<ProductEntity> produtosEntity = productRepositoryJpa.findByCategory(category);
         List<Product> produtos = produtosEntity.stream().map(ProductMapper::product).toList();

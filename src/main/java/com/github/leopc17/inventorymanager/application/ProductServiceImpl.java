@@ -75,8 +75,15 @@ public class ProductServiceImpl implements ProductServicePort {
                 .orElseThrow(() -> new ProductNotFoundException("Erro ao atualizar quantidade do produto ID:" + id));
     }
 
+    @Override
     public List<Product> getByCategory(String category) {
-        return productRepository.findByCategory(category);
+        var optional = productReporitoryAdapter.getByCategory(category);
+        
+        if (optional.isEmpty()) {
+            throw new ProductNotFoundException("Nenhum produto encontrado na categoria: " + category);
+        }
+        
+        return optional.get();
     }
 
 }
