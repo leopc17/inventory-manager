@@ -10,4 +10,5 @@ public interface ProductServicePort {
     Product getById(Integer id);
     Product update(Product newProduct, Integer id);
     void deleteById(Integer id);
+    Product updateInventory(Integer id, Integer quantity);
 }

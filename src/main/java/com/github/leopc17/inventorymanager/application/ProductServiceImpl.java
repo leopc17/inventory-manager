@@ -59,4 +59,20 @@ public class ProductServiceImpl implements ProductServicePort {
         }
         productReporitoryAdapter.deleteById(id);
     }
+
+    @Override
+    public Product updateInventory(Integer id, Integer quantity) {
+        var optional = productReporitoryAdapter.getById(id);
+
+        if (optional.isEmpty()) {
+            throw new ProductNotFoundException("ID:" + id + " não encontrado");
+        }
+
+        Product product = optional.get();
+        product.setQuantity(quantity);
+
+        return productReporitoryAdapter.save(product)
+                .orElseThrow(() -> new ProductNotFoundException("Erro ao atualizar quantidade do produto ID:" + id));
+    }
+
 }

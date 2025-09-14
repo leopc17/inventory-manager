@@ -47,4 +47,14 @@ public class ProductController {
         Product updatedProduct = productService.update(product, id);
         return ResponseEntity.ok(updatedProduct);
     }
+
+    @PatchMapping("/{id}/inventory")
+    public ResponseEntity<Product> updateInventory(
+            @PathVariable Integer id,
+            @RequestParam("quantity") Integer quantity) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(productService.updateInventory(id, quantity));
+    }
+
+
 }
