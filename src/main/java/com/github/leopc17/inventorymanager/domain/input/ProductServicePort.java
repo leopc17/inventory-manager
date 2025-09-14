@@ -1,8 +1,8 @@
 package com.github.leopc17.inventorymanager.domain.input;
 
-import com.github.leopc17.inventorymanager.domain.model.Product;
-
 import java.util.List;
+
+import com.github.leopc17.inventorymanager.domain.model.Product;
 
 public interface ProductServicePort {
     Product create(Product product);
@@ -11,4 +11,5 @@ public interface ProductServicePort {
     Product update(Product newProduct, Integer id);
     void deleteById(Integer id);
     Product updateInventory(Integer id, Integer quantity);
+    
 }
