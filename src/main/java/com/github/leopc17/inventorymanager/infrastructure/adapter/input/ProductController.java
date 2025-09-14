@@ -56,5 +56,14 @@ public class ProductController {
                 .body(productService.updateInventory(id, quantity));
     }
 
+    @GetMapping
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(value = "category", required = false) String category) {
+        if (category != null && !category.isEmpty()) {
+            List<Product> filteredProducts = productService.getByCategory(category);
+            return ResponseEntity.status(HttpStatus.OK).body(filteredProducts);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(productService.getAll());
+        }
+    }
 
 }

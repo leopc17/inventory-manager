@@ -11,4 +11,5 @@ public interface ProductRepositoryPort {
     Optional<Product> getById(Integer id);
     Optional<Product> updateById(Product newProduct, Integer id);
     void deleteById(Integer id);
+    Optional<List<Product>> getByCategory(String category);
 }
