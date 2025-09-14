@@ -7,6 +7,7 @@ import com.github.leopc17.inventorymanager.infrastructure.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,4 +62,12 @@ public class ProductReporitoryAdapter implements ProductRepositoryPort {
         List<Product> produtos = produtosEntity.stream().map(ProductMapper::product).toList();
         return Optional.of(produtos);
     }
+
+    @Override
+    public Optional<List<Product>> getByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) { // Tipo alterado
+        List<ProductEntity> produtosEntity = productRepositoryJpa.findByPriceBetween(minPrice, maxPrice);
+        List<Product> produtos = produtosEntity.stream().map(ProductMapper::product).toList();
+        return Optional.of(produtos);
+    }
+
 }

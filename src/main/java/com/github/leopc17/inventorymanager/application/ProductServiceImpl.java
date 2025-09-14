@@ -7,6 +7,7 @@ import com.github.leopc17.inventorymanager.infrastructure.adapter.output.Product
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -83,6 +84,17 @@ public class ProductServiceImpl implements ProductServicePort {
             throw new ProductNotFoundException("Nenhum produto encontrado na categoria: " + category);
         }
         
+        return optional.get();
+    }
+
+    @Override
+    public List<Product> getByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) { // Tipo alterado
+        var optional = productReporitoryAdapter.getByPriceRange(minPrice, maxPrice);
+
+        if (optional.isEmpty()) {
+            throw new ProductNotFoundException("Nenhum produto encontrado na faixa de preço.");
+        }
+
         return optional.get();
     }
 
