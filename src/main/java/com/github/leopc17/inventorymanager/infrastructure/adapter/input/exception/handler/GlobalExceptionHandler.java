@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -22,9 +23,12 @@ public class GlobalExceptionHandler {
         return buildResponse(apiError);
     }
 
-    @ExceptionHandler(ProductNotFoundException.class)
+    @ExceptionHandler({
+            ProductNotFoundException.class,
+            NoSuchElementException.class
+    })
     @ResponseStatus(NOT_FOUND)
-    public ResponseEntity<ApiError> handleProductNotFoundException(ProductNotFoundException ex) {
+    public ResponseEntity<ApiError> handleProductNotFoundException(RuntimeException ex) {
         ApiError apiError = new ApiError(LocalDateTime.now(), NOT_FOUND, ex.getLocalizedMessage());
         return buildResponse(apiError);
     }
