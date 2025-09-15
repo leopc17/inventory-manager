@@ -1,8 +1,10 @@
 package com.github.leopc17.inventorymanager.infrastructure.adapter.input;
 
 import com.github.leopc17.inventorymanager.application.ProductServiceImpl;
+import com.github.leopc17.inventorymanager.application.dto.ProductDto;
 import com.github.leopc17.inventorymanager.domain.enums.ProductCategory;
 import com.github.leopc17.inventorymanager.domain.model.Product;
+import com.github.leopc17.inventorymanager.infrastructure.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +25,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody Product product){
+    public ResponseEntity<Product> create(@RequestBody ProductDto productDto){
+        Product product = ProductMapper.product(productDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(product));
     }
 
@@ -56,7 +59,8 @@ public class ProductController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody ProductDto productDto) {
+        Product product = ProductMapper.product(productDto);
         Product updatedProduct = productService.update(product, id);
         return ResponseEntity.ok(updatedProduct);
     }
