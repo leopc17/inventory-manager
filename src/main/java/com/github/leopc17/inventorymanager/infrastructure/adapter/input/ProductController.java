@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -25,10 +26,21 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.create(product));
     }
 
-
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts(){
-        return ResponseEntity.status(HttpStatus.OK).body(productService.getAll());
+    public ResponseEntity<List<Product>> getAllProducts(
+            @RequestParam(value = "category", required = false) String category,
+            @RequestParam(value = "minprice", required = false) BigDecimal minPrice,
+            @RequestParam(value = "maxprice", required = false) BigDecimal maxPrice) {
+
+        if (category != null && !category.isEmpty()) {
+            List<Product> filteredProducts = productService.getByCategory(category);
+            return ResponseEntity.status(HttpStatus.OK).body(filteredProducts);
+        } else if (minPrice != null && maxPrice != null) {
+            List<Product> filteredProducts = productService.getByPriceRange(minPrice, maxPrice);
+            return ResponseEntity.status(HttpStatus.OK).body(filteredProducts);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(productService.getAll());
+        }
     }
 
     @GetMapping("/{id}")
@@ -55,6 +67,4 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(productService.updateInventory(id, quantity));
     }
-
-
 }
