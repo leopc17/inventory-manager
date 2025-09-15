@@ -7,6 +7,7 @@ import com.github.leopc17.inventorymanager.infrastructure.adapter.output.Product
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -59,4 +60,42 @@ public class ProductServiceImpl implements ProductServicePort {
         }
         productReporitoryAdapter.deleteById(id);
     }
+
+    @Override
+    public Product updateInventory(Integer id, Integer quantity) {
+        var optional = productReporitoryAdapter.getById(id);
+
+        if (optional.isEmpty()) {
+            throw new ProductNotFoundException("ID:" + id + " não encontrado");
+        }
+
+        Product product = optional.get();
+        product.setQuantity(quantity);
+
+        return productReporitoryAdapter.save(product)
+                .orElseThrow(() -> new ProductNotFoundException("Erro ao atualizar quantidade do produto ID:" + id));
+    }
+
+    @Override
+    public List<Product> getByCategory(String category) {
+        var optional = productReporitoryAdapter.getByCategory(category);
+        
+        if (optional.isEmpty()) {
+            throw new ProductNotFoundException("Nenhum produto encontrado na categoria: " + category);
+        }
+        
+        return optional.get();
+    }
+
+    @Override
+    public List<Product> getByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) { // Tipo alterado
+        var optional = productReporitoryAdapter.getByPriceRange(minPrice, maxPrice);
+
+        if (optional.isEmpty()) {
+            throw new ProductNotFoundException("Nenhum produto encontrado na faixa de preço.");
+        }
+
+        return optional.get();
+    }
+
 }
