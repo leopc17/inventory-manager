@@ -1,5 +1,6 @@
 package com.github.leopc17.inventorymanager.domain.output;
 
+import com.github.leopc17.inventorymanager.domain.enums.ProductCategory;
 import com.github.leopc17.inventorymanager.domain.model.Product;
 
 import java.math.BigDecimal;
@@ -12,6 +13,6 @@ public interface ProductRepositoryPort {
     Optional<Product> getById(Integer id);
     Optional<Product> updateById(Product newProduct, Integer id);
     void deleteById(Integer id);
-    Optional<List<Product>> getByCategory(String category);
+    Optional<List<Product>> getByCategory(ProductCategory category);
     Optional<List<Product>> getByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
 }

@@ -1,6 +1,7 @@
 package com.github.leopc17.inventorymanager.application;
 
 import com.github.leopc17.inventorymanager.application.exception.ProductNotFoundException;
+import com.github.leopc17.inventorymanager.domain.enums.ProductCategory;
 import com.github.leopc17.inventorymanager.domain.exceptions.ProductQuantityInvalidException;
 import com.github.leopc17.inventorymanager.domain.model.Product;
 import com.github.leopc17.inventorymanager.domain.input.ProductServicePort;
@@ -81,7 +82,7 @@ public class ProductServiceImpl implements ProductServicePort {
     }
 
     @Override
-    public List<Product> getByCategory(String category) {
+    public List<Product> getByCategory(ProductCategory category) {
         var optional = productReporitoryAdapter.getByCategory(category);
         
         if (optional.isEmpty()) {

@@ -1,5 +1,6 @@
 package com.github.leopc17.inventorymanager.infrastructure.adapter.output;
 
+import com.github.leopc17.inventorymanager.domain.enums.ProductCategory;
 import com.github.leopc17.inventorymanager.domain.model.Product;
 import com.github.leopc17.inventorymanager.domain.output.ProductRepositoryPort;
 import com.github.leopc17.inventorymanager.infrastructure.entity.ProductEntity;
@@ -57,7 +58,7 @@ public class ProductReporitoryAdapter implements ProductRepositoryPort {
     }
 
     @Override
-    public Optional<List<Product>> getByCategory(String category) {
+    public Optional<List<Product>> getByCategory(ProductCategory category) {
         List<ProductEntity> produtosEntity = productRepositoryJpa.findByCategory(category);
         List<Product> produtos = produtosEntity.stream().map(ProductMapper::product).toList();
         return Optional.of(produtos);
