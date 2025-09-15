@@ -1,6 +1,7 @@
 package com.github.leopc17.inventorymanager.infrastructure.adapter.input;
 
 import com.github.leopc17.inventorymanager.application.ProductServiceImpl;
+import com.github.leopc17.inventorymanager.domain.enums.ProductCategory;
 import com.github.leopc17.inventorymanager.domain.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,11 +29,11 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts(
-            @RequestParam(value = "category", required = false) String category,
+            @RequestParam(value = "category", required = false) ProductCategory category,
             @RequestParam(value = "minprice", required = false) BigDecimal minPrice,
             @RequestParam(value = "maxprice", required = false) BigDecimal maxPrice) {
 
-        if (category != null && !category.isEmpty()) {
+        if (category != null) {
             List<Product> filteredProducts = productService.getByCategory(category);
             return ResponseEntity.status(HttpStatus.OK).body(filteredProducts);
         } else if (minPrice != null && maxPrice != null) {
