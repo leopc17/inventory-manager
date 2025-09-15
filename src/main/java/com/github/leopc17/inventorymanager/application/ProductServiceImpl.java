@@ -1,6 +1,7 @@
 package com.github.leopc17.inventorymanager.application;
 
 import com.github.leopc17.inventorymanager.application.exception.ProductNotFoundException;
+import com.github.leopc17.inventorymanager.domain.exceptions.ProductQuantityInvalidException;
 import com.github.leopc17.inventorymanager.domain.model.Product;
 import com.github.leopc17.inventorymanager.domain.input.ProductServicePort;
 import com.github.leopc17.inventorymanager.infrastructure.adapter.output.ProductReporitoryAdapter;
@@ -65,12 +66,15 @@ public class ProductServiceImpl implements ProductServicePort {
     public Product updateInventory(Integer id, Integer quantity) {
         var optional = productReporitoryAdapter.getById(id);
 
-        if (optional.isEmpty()) {
-            throw new ProductNotFoundException("ID:" + id + " não encontrado");
+        Product product = optional.orElseThrow(() -> new ProductNotFoundException("ID:" + id + " não encontrado"));
+
+        Integer newQuantity = product.getQuantity() + quantity;
+
+        if (newQuantity < 0) {
+            throw new ProductQuantityInvalidException("A quantidade não pode ser negativa para o produto:" + id);
         }
 
-        Product product = optional.get();
-        product.setQuantity(quantity);
+        product.setQuantity(newQuantity);
 
         return productReporitoryAdapter.save(product)
                 .orElseThrow(() -> new ProductNotFoundException("Erro ao atualizar quantidade do produto ID:" + id));
