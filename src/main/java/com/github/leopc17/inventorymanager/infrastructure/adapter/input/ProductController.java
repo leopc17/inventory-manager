@@ -33,7 +33,7 @@ public class ProductController {
 
     @Operation(summary = "Create a new product", description = "Add a new product to the system")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "product created successfully",
+            @ApiResponse(responseCode = "201", description = "product created successfully",
                     content = @Content(schema = @Schema(implementation = ProductDto.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request data",
                     content = @Content(schema = @Schema()))
@@ -103,7 +103,7 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @Operation(summary = "Patch a product", description = "Patch a product from the system using their ID")
+    @Operation(summary = "Increase/decrease quantity of a product", description = "Patch a quantity of product from the system using their ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "product Patched successfully"),
             @ApiResponse(responseCode = "404", description = "product not found",
