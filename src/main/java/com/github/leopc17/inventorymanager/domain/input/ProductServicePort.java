@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.github.leopc17.inventorymanager.domain.enums.ProductCategory;
 import com.github.leopc17.inventorymanager.domain.model.Product;
+import org.springframework.data.domain.Sort;
 
 public interface ProductServicePort {
     Product create(Product product);
@@ -16,4 +17,5 @@ public interface ProductServicePort {
     List<Product> getByCategory(ProductCategory category);
     List<Product> getByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
     List<Product> getProductsBelow(Integer quantity);
+    List<Product> getAllOrder(Sort sort);
 }

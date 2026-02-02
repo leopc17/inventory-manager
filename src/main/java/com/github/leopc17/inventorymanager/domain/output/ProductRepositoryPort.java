@@ -2,6 +2,7 @@ package com.github.leopc17.inventorymanager.domain.output;
 
 import com.github.leopc17.inventorymanager.domain.enums.ProductCategory;
 import com.github.leopc17.inventorymanager.domain.model.Product;
+import org.springframework.data.domain.Sort;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,4 +17,5 @@ public interface ProductRepositoryPort {
     Optional<List<Product>> getByCategory(ProductCategory category);
     Optional<List<Product>> getByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
     Optional<List<Product>> getProductsBelow(Integer quantity);
+    Optional<List<Product>> getAllOrder(Sort sort);
 }

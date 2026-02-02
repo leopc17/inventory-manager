@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -121,5 +122,20 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProductsBelow(
             @RequestParam(required = false)int quantity) {
         return ResponseEntity.ok(productService.getProductsBelow(quantity));
+    }
+
+    @GetMapping("/order")
+    public List<Product> getProductsOrdered(
+            @RequestParam(defaultValue = "asc") String order
+    ) {
+        Sort sort;
+
+        if (order.equalsIgnoreCase("desc")) {
+            sort = Sort.by("price").descending();
+        } else {
+            sort = Sort.by("price").ascending();
+        }
+
+        return productService.getAllOrder(sort);
     }
 }
