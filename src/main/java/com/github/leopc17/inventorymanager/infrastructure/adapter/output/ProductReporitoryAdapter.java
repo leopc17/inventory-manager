@@ -6,6 +6,7 @@ import com.github.leopc17.inventorymanager.domain.output.ProductRepositoryPort;
 import com.github.leopc17.inventorymanager.infrastructure.entity.ProductEntity;
 import com.github.leopc17.inventorymanager.infrastructure.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -77,4 +78,12 @@ public class ProductReporitoryAdapter implements ProductRepositoryPort {
         List<Product> products = productsBelow.stream().map(ProductMapper::product).toList();
         return Optional.of(products);
     }
+
+    @Override
+    public Optional<List<Product>> getAllOrder(Sort sort) {
+        List<ProductEntity> entity = productRepositoryJpa.findAll(sort);
+        List<Product> products = entity.stream().map(ProductMapper::product).toList();
+        return Optional.of(products);
+    }
+
 }

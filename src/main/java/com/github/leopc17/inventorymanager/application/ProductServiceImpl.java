@@ -7,6 +7,7 @@ import com.github.leopc17.inventorymanager.domain.model.Product;
 import com.github.leopc17.inventorymanager.domain.input.ProductServicePort;
 import com.github.leopc17.inventorymanager.infrastructure.adapter.output.ProductReporitoryAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -113,5 +114,16 @@ public class ProductServiceImpl implements ProductServicePort {
         }
 
         return productsBelow.get();
+    }
+
+    @Override
+    public List<Product> getAllOrder(Sort sort) {
+        Optional<List<Product>> allOrder = productReporitoryAdapter.getAllOrder(sort);
+
+        if(allOrder.isEmpty()) {
+            throw new ProductNotFoundException("Nenhum produto encontrado.");
+        }
+
+        return allOrder.get();
     }
 }
