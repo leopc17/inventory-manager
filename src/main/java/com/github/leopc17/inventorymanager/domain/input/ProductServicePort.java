@@ -15,4 +15,5 @@ public interface ProductServicePort {
     Product updateInventory(Integer id, Integer quantity);
     List<Product> getByCategory(ProductCategory category);
     List<Product> getByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
+    List<Product> getProductsBelow(Integer quantity);
 }

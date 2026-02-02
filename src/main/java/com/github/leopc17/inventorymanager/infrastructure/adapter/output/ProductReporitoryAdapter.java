@@ -71,4 +71,10 @@ public class ProductReporitoryAdapter implements ProductRepositoryPort {
         return Optional.of(produtos);
     }
 
+    @Override
+    public Optional<List<Product>> getProductsBelow(Integer quantity) {
+        List<ProductEntity> productsBelow = productRepositoryJpa.findProductsBelow(quantity);
+        List<Product> products = productsBelow.stream().map(ProductMapper::product).toList();
+        return Optional.of(products);
+    }
 }
