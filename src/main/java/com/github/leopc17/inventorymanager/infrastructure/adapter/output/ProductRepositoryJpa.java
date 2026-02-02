@@ -7,10 +7,15 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepositoryJpa extends JpaRepository<ProductEntity, Integer> {
      List<ProductEntity> findByCategory(ProductCategory category);
      List<ProductEntity> findByPriceBetween(BigDecimal minPrice, BigDecimal maxPrice);
+
+     @Query("SELECT p FROM ProductEntity p WHERE p.quantity <= :quantity")
+     List<ProductEntity> findProductsBelow(@Param("quantity") Integer quantity);
 }

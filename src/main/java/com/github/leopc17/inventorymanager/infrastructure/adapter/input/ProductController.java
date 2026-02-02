@@ -116,4 +116,10 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(productService.updateInventory(id, quantity));
     }
+
+    @GetMapping("/below")
+    public ResponseEntity<List<Product>> getProductsBelow(
+            @RequestParam(required = false)int quantity) {
+        return ResponseEntity.ok(productService.getProductsBelow(quantity));
+    }
 }

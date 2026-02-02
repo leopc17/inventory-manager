@@ -15,4 +15,5 @@ public interface ProductRepositoryPort {
     void deleteById(Integer id);
     Optional<List<Product>> getByCategory(ProductCategory category);
     Optional<List<Product>> getByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
+    Optional<List<Product>> getProductsBelow(Integer quantity);
 }

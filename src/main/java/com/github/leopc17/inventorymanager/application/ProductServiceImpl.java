@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductServicePort {
@@ -103,4 +104,14 @@ public class ProductServiceImpl implements ProductServicePort {
         return optional.get();
     }
 
+    @Override
+    public List<Product> getProductsBelow(Integer quantity) {
+        Optional<List<Product>> productsBelow = productReporitoryAdapter.getProductsBelow(quantity);
+
+        if(productsBelow.isEmpty()) {
+            throw new ProductNotFoundException("Nenhum produto encontrado.");
+        }
+
+        return productsBelow.get();
+    }
 }
