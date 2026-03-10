@@ -1,0 +1,29 @@
+body{
+font-family: Arial;
+margin:40px;
+}
+
+table{
+border-collapse: collapse;
+width:100%;
+margin-top:20px;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:8px;
+}
+
+th{
+background:#eee;
+}
+
+button{
+padding:6px 10px;
+cursor:pointer;
+}
+
+.form input, .form select{
+margin-right:10px;
+padding:6px;
+}
