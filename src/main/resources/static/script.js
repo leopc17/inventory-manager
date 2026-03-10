@@ -1,115 +1,96 @@
-const API = "http://localhost:8080/products"
+const api = "http://localhost:8080/products";
 
-async function loadProducts(){
+function createProduct() {
 
-const res = await fetch(API)
+  const product = {
+    name: document.getElementById("name").value,
+    price: parseFloat(document.getElementById("price").value),
+    quantity: parseInt(document.getElementById("quantity").value),
+    shortDescription: document.getElementById("shortDescription").value,
+    longDescription: document.getElementById("longDescription").value,
+    category: document.getElementById("category").value
+  };
 
-const data = await res.json()
-
-renderTable(data)
-
-}
-
-function renderTable(products){
-
-const table = document.getElementById("tableProducts")
-
-table.innerHTML = ""
-
-products.forEach(p => {
-
-table.innerHTML += `
-
-<tr>
-
-<td>${p.id}</td>
-<td>${p.name}</td>
-<td>${p.price}</td>
-<td>${p.quantity}</td>
-<td>${p.category}</td>
-
-<td>
-
-<button onclick="deleteProduct(${p.id})">Excluir</button>
-
-<button onclick="addStock(${p.id})">+ Estoque</button>
-
-</td>
-
-</tr>
-
-`
-
-})
+  fetch(api, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(product)
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Erro ao criar produto");
+    }
+    return response.json();
+  })
+  .then(() => {
+    alert("Produto criado com sucesso");
+    clearForm();
+    loadProducts();
+  })
+  .catch(error => {
+    console.error(error);
+    alert("Erro ao criar produto");
+  });
 
 }
 
-async function createProduct(){
+function loadProducts() {
 
-const product = {
+  fetch(api)
+    .then(response => response.json())
+    .then(data => {
 
-name: document.getElementById("name").value,
+      const table = document.getElementById("productTable");
+      table.innerHTML = "";
 
-price: document.getElementById("price").value,
+      data.forEach(p => {
 
-quantity: document.getElementById("quantity").value,
+        table.innerHTML += `
+        <tr>
+          <td>${p.id}</td>
+          <td>${p.name}</td>
+          <td>R$ ${p.price}</td>
+          <td>${p.quantity}</td>
+          <td>${p.category}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">
+              Excluir
+            </button>
+          </td>
+        </tr>
+        `;
 
-category: document.getElementById("category").value
+      });
 
-}
-
-await fetch(API, {
-
-method: "POST",
-
-headers: {
-
-"Content-Type":"application/json"
-
-},
-
-body: JSON.stringify(product)
-
-})
-
-loadProducts()
-
-}
-
-async function deleteProduct(id){
-
-await fetch(`${API}/${id}`, {
-
-method:"DELETE"
-
-})
-
-loadProducts()
+    })
+    .catch(error => {
+      console.error("Erro ao carregar produtos:", error);
+    });
 
 }
 
-async function addStock(id){
+function deleteProduct(id) {
 
-const quantity = prompt("Quantidade para adicionar ou remover:")
-
-await fetch(`${API}/${id}/inventory?quantity=${quantity}`, {
-
-method:"PATCH"
-
-})
-
-loadProducts()
-
-}
-
-async function orderProducts(){
-
-const res = await fetch(`${API}/order?order=desc`)
-
-const data = await res.json()
-
-renderTable(data)
+  fetch(`${api}/${id}`, {
+    method: "DELETE"
+  })
+  .then(() => {
+    loadProducts();
+  })
+  .catch(error => {
+    console.error("Erro ao excluir:", error);
+  });
 
 }
 
-loadProducts()
+function clearForm() {
+  document.getElementById("name").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("quantity").value = "";
+  document.getElementById("shortDescription").value = "";
+  document.getElementById("longDescription").value = "";
+}
+
+loadProducts();
