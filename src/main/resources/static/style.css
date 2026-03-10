@@ -1,29 +1,172 @@
 body{
-font-family: Arial;
-margin:40px;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+    background:linear-gradient(135deg,#1f2a44,#2c3e50);
+    min-height:100vh;
+    margin:0;
+    animation:fadePage 0.6s ease;
 }
 
-table{
-border-collapse: collapse;
-width:100%;
-margin-top:20px;
+/* animação inicial da página */
+
+@keyframes fadePage{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
-th,td{
-border:1px solid #ccc;
-padding:8px;
+/* container */
+
+.container{
+    max-width:1100px;
 }
 
-th{
-background:#eee;
+/* título */
+
+h1{
+    color:white;
+    font-weight:700;
+    letter-spacing:1px;
 }
+
+/* cards */
+
+.card{
+    border:none;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+    animation:fadeUp 0.4s ease;
+}
+
+.card:hover{
+    transform:translateY(-6px) scale(1.01);
+    box-shadow:0 20px 40px rgba(0,0,0,0.35);
+}
+
+/* animação de entrada dos cards */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* inputs */
+
+.form-control,
+.form-select{
+    border-radius:8px;
+    border:1px solid #ddd;
+    transition:all 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus{
+    border-color:#4e73df;
+    box-shadow:0 0 5px rgba(78,115,223,0.4);
+    transform:scale(1.02);
+}
+
+/* botões */
 
 button{
-padding:6px 10px;
-cursor:pointer;
+    transition:all 0.2s ease;
 }
 
-.form input, .form select{
-margin-right:10px;
-padding:6px;
+button:hover{
+    transform:translateY(-2px);
+}
+
+button:active{
+    transform:scale(0.95);
+}
+
+/* botão principal */
+
+.btn-primary{
+    background:linear-gradient(135deg,#4e73df,#224abe);
+    border:none;
+    font-weight:600;
+}
+
+/* botão secundário */
+
+.btn-secondary{
+    background:#6c757d;
+}
+
+/* botão excluir */
+
+.btn-danger{
+    background:#e74a3b;
+    border:none;
+    position:relative;
+}
+
+.btn-danger:hover{
+    animation:shake 0.25s;
+}
+
+/* animação de alerta */
+
+@keyframes shake{
+    0%{transform:translateX(0)}
+    25%{transform:translateX(-2px)}
+    50%{transform:translateX(2px)}
+    75%{transform:translateX(-2px)}
+    100%{transform:translateX(0)}
+}
+
+/* tabela */
+
+.table{
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.table thead{
+    background:linear-gradient(135deg,#4e73df,#224abe);
+    color:white;
+}
+
+.table tbody tr{
+    transition:background 0.2s;
+    opacity:0;
+    animation:fadeRow 0.4s forwards;
+}
+
+.table tbody tr:hover{
+    background:#f2f6ff;
+}
+
+/* animação das linhas da tabela */
+
+.table tbody tr:nth-child(1){animation-delay:0.05s;}
+.table tbody tr:nth-child(2){animation-delay:0.1s;}
+.table tbody tr:nth-child(3){animation-delay:0.15s;}
+.table tbody tr:nth-child(4){animation-delay:0.2s;}
+.table tbody tr:nth-child(5){animation-delay:0.25s;}
+.table tbody tr:nth-child(6){animation-delay:0.3s;}
+.table tbody tr:nth-child(7){animation-delay:0.35s;}
+.table tbody tr:nth-child(8){animation-delay:0.4s;}
+
+@keyframes fadeRow{
+    from{
+        opacity:0;
+        transform:translateX(-10px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
 }
