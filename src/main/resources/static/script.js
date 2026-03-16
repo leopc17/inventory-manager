@@ -1,96 +1,274 @@
 const api = "http://localhost:8080/products";
 
-function createProduct() {
+function $(id){
+return document.getElementById(id);
+}
 
-  const product = {
-    name: document.getElementById("name").value,
-    price: parseFloat(document.getElementById("price").value),
-    quantity: parseInt(document.getElementById("quantity").value),
-    shortDescription: document.getElementById("shortDescription").value,
-    longDescription: document.getElementById("longDescription").value,
-    category: document.getElementById("category").value
-  };
+/* =========================
+CRIAR PRODUTO
+========================= */
 
-  fetch(api, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(product)
-  })
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("Erro ao criar produto");
-    }
-    return response.json();
-  })
-  .then(() => {
-    alert("Produto criado com sucesso");
-    clearForm();
-    loadProducts();
-  })
-  .catch(error => {
-    console.error(error);
-    alert("Erro ao criar produto");
-  });
+async function createProduct(){
+
+const product = {
+name: $("name").value,
+price: parseFloat($("price").value),
+quantity: parseInt($("quantity").value),
+shortDescription: $("shortDescription").value,
+longDescription: $("longDescription").value,
+category: $("category").value
+};
+
+if(!product.name || isNaN(product.price) || isNaN(product.quantity)){
+alert("Preencha nome, preço e quantidade");
+return;
+}
+
+try{
+
+const response = await fetch(api,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(product)
+});
+
+if(response.ok){
+alert("Produto criado");
+clearForm();
+loadProducts();
+}else{
+alert("Erro ao criar produto");
+}
+
+}catch(error){
+console.error(error);
+alert("Erro ao criar produto");
+}
 
 }
 
-function loadProducts() {
+/* =========================
+CARREGAR PRODUTOS
+========================= */
 
-  fetch(api)
-    .then(response => response.json())
-    .then(data => {
+async function loadProducts(){
 
-      const table = document.getElementById("productTable");
-      table.innerHTML = "";
+try{
 
-      data.forEach(p => {
+const response = await fetch(api);
 
-        table.innerHTML += `
-        <tr>
-          <td>${p.id}</td>
-          <td>${p.name}</td>
-          <td>R$ ${p.price}</td>
-          <td>${p.quantity}</td>
-          <td>${p.category}</td>
-          <td>
-            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">
-              Excluir
-            </button>
-          </td>
-        </tr>
-        `;
+if(!response.ok){
+throw new Error("Erro ao buscar produtos");
+}
 
-      });
+const products = await response.json();
 
-    })
-    .catch(error => {
-      console.error("Erro ao carregar produtos:", error);
-    });
+renderProducts(products);
+
+}catch(error){
+
+console.error("Erro ao carregar produtos:", error);
+alert("Erro ao carregar produtos");
 
 }
 
-function deleteProduct(id) {
+}
 
-  fetch(`${api}/${id}`, {
-    method: "DELETE"
-  })
-  .then(() => {
-    loadProducts();
-  })
-  .catch(error => {
-    console.error("Erro ao excluir:", error);
-  });
+/* =========================
+RENDERIZAR PRODUTOS
+========================= */
+
+function renderProducts(products){
+
+const table = $("productTable");
+table.innerHTML="";
+
+if(!products || products.length === 0){
+
+table.innerHTML = `
+<tr>
+<td colspan="6" class="text-center">
+Nenhum produto encontrado
+</td>
+</tr>
+`;
+
+return;
 
 }
 
-function clearForm() {
-  document.getElementById("name").value = "";
-  document.getElementById("price").value = "";
-  document.getElementById("quantity").value = "";
-  document.getElementById("shortDescription").value = "";
-  document.getElementById("longDescription").value = "";
+products.forEach(p=>{
+
+const row = document.createElement("tr");
+
+row.innerHTML = `
+<td>${p.id}</td>
+<td>${p.name}</td>
+<td>${p.price}</td>
+<td>${p.quantity}</td>
+<td>${p.category}</td>
+<td>
+<button class="btn btn-danger btn-sm">Excluir</button>
+</td>
+`;
+
+row.querySelector("button").onclick = ()=>deleteProduct(p.id);
+
+table.appendChild(row);
+
+});
+
 }
+
+/* =========================
+ORDENAR PRODUTOS
+========================= */
+
+async function orderProducts(order){
+
+try{
+
+const response = await fetch(`${api}/order?order=${order}`);
+
+if(!response.ok){
+throw new Error("Erro ao ordenar produtos");
+}
+
+const products = await response.json();
+
+renderProducts(products);
+
+}catch(error){
+
+console.error(error);
+alert("Erro ao ordenar produtos");
+
+}
+
+}
+
+/* =========================
+FILTRAR PRODUTOS
+========================= */
+
+async function filterProducts(){
+
+try{
+
+const category = $("filterCategory").value;
+const minPrice = $("minPrice").value;
+const maxPrice = $("maxPrice").value;
+
+let params = [];
+
+if(category){
+params.push(`category=${category}`);
+}
+
+if(minPrice){
+params.push(`minprice=${minPrice}`);
+}
+
+if(maxPrice){
+params.push(`maxprice=${maxPrice}`);
+}
+
+let url = api;
+
+if(params.length > 0){
+url += "?" + params.join("&");
+}
+
+const response = await fetch(url);
+
+if(!response.ok){
+throw new Error("Erro ao filtrar produtos");
+}
+
+const products = await response.json();
+
+renderProducts(products);
+
+}catch(error){
+
+console.error(error);
+alert("Erro ao filtrar produtos");
+
+}
+
+}
+
+/* =========================
+ESTOQUE BAIXO
+========================= */
+
+async function lowStock(){
+
+try{
+
+const quantity = 10;
+
+const response = await fetch(`${api}/below?quantity=${quantity}`);
+
+if(!response.ok){
+throw new Error("Erro ao buscar produtos com estoque baixo");
+}
+
+const products = await response.json();
+
+renderProducts(products);
+
+}catch(error){
+
+console.error(error);
+alert("Erro ao buscar produtos com estoque baixo");
+
+}
+
+}
+
+/* =========================
+DELETAR
+========================= */
+
+async function deleteProduct(id){
+
+if(!confirm("Excluir produto?")) return;
+
+await fetch(api+"/"+id,{
+method:"DELETE"
+});
 
 loadProducts();
+
+}
+
+/* =========================
+UTIL
+========================= */
+
+function clearForm(){
+
+$("name").value="";
+$("price").value="";
+$("quantity").value="";
+$("shortDescription").value="";
+$("longDescription").value="";
+
+}
+
+/* =========================
+INIT
+========================= */
+
+window.createProduct = createProduct;
+window.loadProducts = loadProducts;
+window.orderProducts = orderProducts;
+window.filterProducts = filterProducts;
+window.lowStock = lowStock;
+
+window.onload = function(){
+loadProducts();
+};
