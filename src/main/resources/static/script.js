@@ -7,6 +7,8 @@ function $(id) {
 // Guarda as instâncias dos Modais para serem reutilizadas
 let productModalInstance;
 let deleteModalInstance;
+let editModalInstance;
+
 
 document.addEventListener('DOMContentLoaded', function () {
     // Inicializa o modal de detalhes do produto
@@ -19,6 +21,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const deleteModalElement = $('deleteConfirmModal');
     if (deleteModalElement) {
         deleteModalInstance = new bootstrap.Modal(deleteModalElement);
+    }
+
+    const editModalElement = $('editProductModal');
+    if (editModalElement) {
+        editModalInstance = new bootstrap.Modal(editModalElement);
     }
 });
 
@@ -103,6 +110,7 @@ function renderProducts(products) {
             <td>${p.category}</td>
             <td>
                 <button class="btn btn-info btn-sm me-2" onclick="showProductDetails(${p.id})">Ver</button>
+                <button class="btn btn-warning btn-sm me-2" onclick="openEditModal(${p.id})">Editar</button>
                 <button class="btn btn-danger btn-sm" onclick="confirmDeleteProduct(${p.id})">Excluir</button>
             </td>
         `;
@@ -234,6 +242,61 @@ async function deleteProduct(id) {
 }
 
 /* =========================
+EDITAR PRODUTO
+========================= */
+
+async function updateProduct() {
+    const id = $("editId").value;
+
+    const product = {
+        name: $("editName").value,
+        price: parseFloat($("editPrice").value),
+        quantity: parseInt($("editQuantity").value),
+        shortDescription: $("editShortDescription").value,
+        longDescription: $("editLongDescription").value,
+        category: $("editCategory").value
+    };
+
+    try {
+        // Apenas UMA requisição resolve tudo se o seu DTO/Service tratar a quantidade
+        const response = await fetch(`${api}/${id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(product)
+        });
+
+        if (!response.ok) throw new Error("Erro ao atualizar produto");
+
+        showNotification("Produto atualizado com sucesso!", "success");
+        editModalInstance.hide();
+        loadProducts();
+
+    } catch (error) {
+        showNotification(error.message, "danger");
+    }
+}
+
+async function openEditModal(id) {
+    try {
+        const response = await fetch(`${api}/${id}`);
+        if (!response.ok) throw new Error("Produto não encontrado");
+        const p = await response.json();
+
+        $("editId").value = p.id;
+        $("editName").value = p.name;
+        $("editPrice").value = p.price;
+        $("editShortDescription").value = p.shortDescription || "";
+        $("editLongDescription").value = p.longDescription || "";
+        $("editCategory").value = p.category;
+        $("editQuantity").value = p.quantity;
+
+        editModalInstance.show();
+    } catch (error) {
+        showNotification("Erro ao carregar dados do produto.", "danger");
+    }
+}
+
+/* =========================
 FUNÇÕES UTILITÁRIAS
 ========================= */
 
@@ -271,7 +334,6 @@ function showNotification(message, type = 'info') {
     });
 }
 
-
 /* =========================
 INICIALIZAÇÃO
 ========================= */
@@ -284,6 +346,8 @@ window.filterProducts = filterProducts;
 window.lowStock = lowStock;
 window.confirmDeleteProduct = confirmDeleteProduct;
 window.showProductDetails = showProductDetails;
+window.openEditModal = openEditModal;
+window.updateProduct = updateProduct;
 
 // Carregamento inicial
 window.onload = loadProducts;
