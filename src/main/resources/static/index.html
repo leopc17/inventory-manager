@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Manager</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="bg-light">
+
+<div class="stars">
+  <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+  <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+  <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+  <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+  <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+  <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+  <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+  <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+  <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+  <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+</div>
+
+<div id="notification-area" class="position-fixed top-0 end-0 p-3" style="z-index: 1050;"></div>
+
+<div class="container mt-5 mb-5">
+
+    <h1 class="text-center mb-4">Inventory Manager</h1>
+
+    <!-- CADASTRAR PRODUTO -->
+    <div class="card mb-4" data-hover-collapse="true">
+        <div class="card-header">
+            <button class="btn w-100 text-start fw-bold" data-bs-toggle="collapse" data-bs-target="#cadastroProduto">
+                Cadastrar Produto
+            </button>
+        </div>
+
+        <div id="cadastroProduto" class="collapse">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input id="name" class="form-control" placeholder="Nome do produto" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input id="price" type="number" step="0.01" class="form-control" placeholder="Preço" required>
+                    </div>
+                    <div class="col-md-3">
+                        <input id="quantity" type="number" class="form-control" placeholder="Quantidade" required>
+                    </div>
+                    <div class="col-12">
+                        <input id="shortDescription" class="form-control" placeholder="Descrição curta">
+                    </div>
+                    <div class="col-12">
+                        <textarea id="longDescription" class="form-control" placeholder="Descrição longa" rows="3"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <select id="category" class="form-select">
+                            <option value="ELECTRONICS">Electronics</option>
+                            <option value="FOOD">Food</option>
+                            <option value="CLOTHING">Clothing</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 d-grid">
+                        <button type="button" class="btn btn-primary" onclick="createProduct()">
+                            Cadastrar Produto
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <!-- FILTRO POR CATEGORIA -->
+            <div class="card mb-3" data-hover-collapse="true">
+                <div class="card-header">
+                    <button class="btn w-100 text-start fw-bold" data-bs-toggle="collapse" data-bs-target="#filtroCategoria">
+                        Filtrar por Categoria
+                    </button>
+                </div>
+                <div id="filtroCategoria" class="collapse">
+                    <div class="card-body">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md-8">
+                                <select id="filterCategory" class="form-select">
+                                    <option value="">Todas Categorias</option>
+                                    <option value="ELECTRONICS">Electronics</option>
+                                    <option value="FOOD">Food</option>
+                                    <option value="CLOTHING">Clothing</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 d-grid">
+                                <button type="button" class="btn btn-secondary" onclick="filterProducts()">
+                                    Filtrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <!-- FILTRO POR INTERVALO DE PREÇO -->
+            <div class="card mb-3" data-hover-collapse="true">
+                <div class="card-header">
+                    <button class="btn w-100 text-start fw-bold" data-bs-toggle="collapse" data-bs-target="#filtroPreco">
+                        Filtrar por Preço
+                    </button>
+                </div>
+                <div id="filtroPreco" class="collapse">
+                    <div class="card-body">
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md-4">
+                                <input id="minPrice" type="number" step="1" min="0" class="form-control" placeholder="Mínimo">
+                            </div>
+                            <div class="col-md-4">
+                                <input id="maxPrice" type="number" step="1" min="0" class="form-control" placeholder="Máximo">
+                            </div>
+                            <div class="col-md-4 d-grid">
+                                <button type="button" class="btn btn-secondary" onclick="filterProducts()">
+                                    Filtrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ORDENAR E ESTOQUE BAIXO -->
+    <div class="card mb-4" data-hover-collapse="true">
+        <div class="card-header">
+            <button class="btn w-100 text-start fw-bold" data-bs-toggle="collapse" data-bs-target="#ordenarEstoque">
+                Ações
+            </button>
+        </div>
+        <div id="ordenarEstoque" class="collapse">
+            <div class="card-body">
+                <div class="d-flex gap-2 flex-wrap">
+                    <button type="button" class="btn btn-outline-primary" onclick="orderProducts('asc')">
+                        Preço ↑
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" onclick="orderProducts('desc')">
+                        Preço ↓
+                    </button>
+                    <button type="button" class="btn btn-info text-white" onclick="loadProducts()">
+                        Atualizar Lista
+                    </button>
+                    <button type="button" class="btn btn-warning" onclick="lowStock()">
+                        Estoque Baixo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUTOS -->
+    <div class="card">
+        <div class="card-header fw-bold">
+            Produtos
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Preço</th>
+                        <th>Qtd.</th>
+                        <th>Categoria</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody id="productTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal Detalhes do Produto -->
+<div class="modal fade" id="productDetailsModal" tabindex="-1" aria-labelledby="productDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productDetailsModalLabel">Detalhes do Produto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3 id="modalProductName"></h3>
+                <p><strong>ID:</strong> <span id="modalProductId"></span></p>
+                <p><strong>Categoria:</strong> <span id="modalProductCategory"></span></p>
+                <p><strong>Preço:</strong> R$ <span id="modalProductPrice"></span></p>
+                <p><strong>Quantidade em Estoque:</strong> <span id="modalProductQuantity"></span></p>
+                <hr>
+                <h5>Descrição Curta</h5>
+                <p id="modalProductShortDescription"></p>
+                <hr>
+                <h5>Descrição Longa</h5>
+                <p id="modalProductLongDescription"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmação de Exclusão -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Excluir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
