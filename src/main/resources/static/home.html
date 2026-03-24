@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Manager | Home</title>
+    <style>
+        :root {
+            --amazon-dark: #131921;
+            --amazon-navy: #232f3e;
+            --amazon-orange: #ff9900;
+            --amazon-orange-hover: #e48900;
+            --bg-light: #f3f3f3;
+            --text-main: #111;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        header {
+            background-color: var(--amazon-dark);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            color: var(--white);
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--amazon-orange);
+        }
+
+        /* --- Hero Section --- */
+        .hero-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 85vh;
+            background: linear-gradient(135deg, #f3f3f3 0%, #ffffff 100%);
+            padding: 0 5%;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            color: var(--amazon-dark);
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .btn-amazon {
+            background-color: var(--amazon-orange);
+            background: linear-gradient(to bottom, #f7dfa5, #f0c14b); /* Gradiente clássico */
+            border: 1px solid;
+            border-color: #a88734 #9c7e31 #846a29;
+            color: #111;
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .btn-amazon:hover {
+            background: linear-gradient(to bottom, #f5d78e, #eeb933);
+            border-color: #a88734 #9c7e31 #846a29;
+            transform: translateY(-1px);
+        }
+
+        .btn-amazon:active {
+            background: #f0c14b;
+            box-shadow: inset 0 3px 5px rgba(0,0,0,0.1);
+        }
+
+        .features-minimal {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 60px;
+            border-top: 1px solid #ddd;
+            padding-top: 40px;
+        }
+
+        .feature-item {
+            text-align: left;
+            max-width: 200px;
+        }
+
+        .feature-item h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--amazon-navy);
+        }
+
+        .feature-item p {
+            font-size: 0.85rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo">Inventory<span>Manager</span></a>
+    <a href="index.html" class="btn-amazon" style="padding: 8px 20px; font-size: 0.9rem;">Entrar</a>
+</header>
+
+<main class="hero-container">
+    <div class="hero-content">
+        <h1>Gestão de estoque, <br>Sem esforço.</h1>
+        <p>Controle entradas, saídas e relatórios com a simplicidade que o seu negócio exige. Inspirado na eficiência logística da Amazon, redesenhado para ser minimalista.</p>
+
+        <a href="index.html" class="btn-amazon">Acessar Sistema Agora</a>
+
+        <div class="features-minimal">
+            <div class="feature-item">
+                <h3>Rápido</h3>
+                <p>Interface otimizada para carregamento instantâneo.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Seguro</h3>
+                <p>Seus dados de inventário protegidos e organizados.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Intuitivo</h3>
+                <p>Interface simples e intuitiva.</p>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>
